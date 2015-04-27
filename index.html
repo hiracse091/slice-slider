@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Slice Slider</title>
+	<script type="text/javascript" src="jquery.min.js"></script>
+	<script type="text/javascript" src="jquery.easing.1.3.js"></script>
+	<script type="text/javascript" src="main.js"></script>
+	<style type="text/css">
+		.slider {
+			position: relative;
+			width: 100%;
+		}
+		.slider div.slider-list{
+			margin: 0;
+			padding: 0;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+		}
+		.slider-list div{
+			margin: 0;
+			padding: 0;
+			opacity: 0;
+			width: 100%;
+			position: absolute;
+		}
+		.fake-img{
+			float: left;
+			width: 100%;
+			height: auto;
+		}
+		.fake-img .fake-slide{
+			position: absolute;
+		}
+		.fake-img .fake-slide div{
+			/*width: 235px;
+			height: 156px;*/
+			position: absolute;
+			float: left;
+			opacity: 0;
+			border: 1px solid #000;
+		}
+		#btn{
+			position: absolute;
+			top: 0;			
+			color: #000;
+		}
+	</style>
+</head>
+<body>
+
+<div class="slider">
+	<div class="slider-list">
+		<div class="slide"><img src="images/img1.jpg" width="100%"></div>
+		<div class="slide"><img src="images/img2.jpg" width="100%" ></div>
+		<div class="slide"><img src="images/img3.jpg" width="100%"></div>
+		<div class="slide"><img src="images/img4.jpg" width="100%"></div>
+	</div>
+	<div class="fake-img">
+		
+	</div>
+</div>
+<div id="btn">slice image </div>
+<div class="current_slide"></div>
+<script type="text/javascript">
+currentSlide = 0;
+row = 2
+col = 4
+width = 940
+height = 470
+animationDelay = 600;
+offset = 150;
+duration_total = (row*col-1)*offset ;
+	$('#btn').click(function(){
+		
+		
+		duration_spent = animationDelay ;
+
+		width = $('.slide').width();
+		height = $('.slide').height();
+
+		slideImg =  $($('.slide')[currentSlide]).find('img').attr('src');
+
+		$('.current_slide').html(currentSlide+1)
+		
+		slice_width = parseInt(width /col);
+		slice_height = parseInt(height/row);
+
+		var html = '';
+		for(i=0; i<row; i++){
+			slice_top = 0;
+			slice_left = 0;
+			for(j =0 ; j<col; j++){
+				slice_top = i * slice_height;
+				slice_left = j* slice_width; 
+				html += '<div style="background-image:url('+slideImg+');background-position:-'+slice_left+'px  -'+slice_top+'px; left:'+slice_left+'px; top:'+slice_top+'px;"></div>'
+			}
+		}
+		/*$('.fake-img').html('');*/
+		if($('.fake-slide-'+currentSlide).length>0){
+			$('.fake-slide-'+currentSlide).remove();
+		}
+		$('.fake-img').append('<div class="fake-slide fake-slide-'+currentSlide+'">'+html+'</div>');
+		
+		$(".fake-slide-"+currentSlide+" div").css({width:'0px',height:slice_height,backgroundSize: width+'px '+height+'px',opacity:0});
+		animateSlide();
+		if(currentSlide >= ($('.slide').length-1)){
+			currentSlide = 0;
+		}else{
+			currentSlide++;
+		}
+		
+	})
+	function animateSlide(){
+		
+
+		function animate(obj) {
+		    setTimeout(function(){
+				if($(obj).index() > 0){
+			    	duration_spent += offset;	
+			    }		    	
+			    console.log(duration_spent);
+		    	
+				
+		        $(obj).animate({
+		            opacity: "1",
+		            width:slice_width+'px'
+		        }, animationDelay);
+		    },$(obj).index()*offset)
+
+		    
+		}
+
+		$(".fake-img .fake-slide-"+currentSlide+" div").each(function(){
+		    animate(this);
+		})
+	}
+	$(window).resize(function(){
+		width = $('.slide').width();
+		height = $('.slide').height();
+		$('.fake-img').html('');
+		$('#btn').trigger('click');
+	})
+</script>
+</body>
+</html>
+<!-- step 1 of development -->
+<!-- <div style="background-image:url(images/img1.jpg);background-position:0px 0px"></div>
+		<div style="background-image:url(images/img1.jpg);background-position:-235px 0px"></div>
+		<div style="background-image:url(images/img1.jpg);background-position:-470px 0px"></div>
+		<div style="background-image:url(images/img1.jpg);background-position:-705px 0px"></div>
+		<div style="background-image:url(images/img1.jpg);background-position:0px -156px"></div>
+		<div style="background-image:url(images/img1.jpg);background-position:-235px -156px"></div>
+		<div style="background-image:url(images/img1.jpg);background-position:-470px -156px"></div>
+		<div style="background-image:url(images/img1.jpg);background-position:-705px -156px"></div>
+		<div style="background-image:url(images/img1.jpg);background-position:0px -312px"></div>
+		<div style="background-image:url(images/img1.jpg);background-position:-235px -312px"></div>
+		<div style="background-image:url(images/img1.jpg);background-position:-470px -312px"></div>
+		<div style="background-image:url(images/img1.jpg);background-position:-705px -312px"></div> -->
