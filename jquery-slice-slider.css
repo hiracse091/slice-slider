@@ -1,0 +1,55 @@
+
+
+.slider {
+	position: relative;
+	width: 100%;
+}
+.slider div.slider-list{
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+}
+.slider-list div{
+	margin: 0;
+	padding: 0;
+	opacity: 0;
+	width: 100%;
+	position: absolute;
+}
+.fake-img{
+	float: left;
+	/*width: 100%;*/
+	height: auto;
+}
+.fake-img .fake-slide{
+	position: absolute;
+}
+.fake-img .fake-slide div{
+	/*width: 235px;
+	height: 156px;*/
+	position: absolute;
+	float: left;
+	opacity: 0;
+	/*border: 1px solid #000;*/
+}
+#pager{
+	position: absolute;
+	top: 424px;
+	color: #000;
+}
+ul.pager{
+	float: left;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+ul.pager li{
+	float: left;
+	margin: 20px;
+	border:4px solid blue;
+	border-radius: 5px;
+	cursor: pointer;
+}
